@@ -63,7 +63,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ${{ steps.set-artifact-name.outputs.name }}
-          path: builds/StandaloneWindows64/StandaloneWindows64
+          path: builds/StandaloneWindows64
           retention-days: 7
   
   deploy:
