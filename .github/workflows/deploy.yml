@@ -93,6 +93,11 @@ jobs:
       
       - name: Move Build into Repo
         run: cp -rf ./game/* ./build-repo
+
+      - name: Set git config
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
       
       - name: Push Build to Repo
         run: |
