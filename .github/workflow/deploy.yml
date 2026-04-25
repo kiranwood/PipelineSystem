@@ -2,7 +2,7 @@ name: Build and Deploy Unity StandaloneWindows64
 
 on:
   schedule:
-    - cron: "5 * * * *"  # Change time / frequency of build
+    - cron: "50 * * * *"  # Change time / frequency of build
 
 # Will cancel workflow 
 concurrency:
