@@ -96,12 +96,12 @@ jobs:
 
       - name: Set git config
         run: |
+          cd ./build-repo
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
       
       - name: Push Build to Repo
         run: |
-          cd ./build-repo
           git add .
           git commit -m "Add New Build"
           git push origin main
