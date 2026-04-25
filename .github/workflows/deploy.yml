@@ -92,7 +92,7 @@ jobs:
           lfs: true
       
       - name: Move Build into Repo
-        run: cp -f ./game/* ./build-repo 
+        run: cp -rf ./game/* ./build-repo 
       
       # - name: Push Build to Repo
 
