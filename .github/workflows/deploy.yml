@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: Library
-          key: Library-StandaloneWindows64-${{ hashFiles('PipelinesProject/Assets/**', 'PipelinesProject/Packages/**', 'PipelinesProject/ProjectSettings/**') }}
+          key: Library-StandaloneWindows64-${{ hashFiles('PipelineSystem/Assets/**', 'PipelineSystem/Packages/**', 'PipelineSystem/ProjectSettings/**') }}
           restore-keys: |
             Library-StandaloneWindows64-
             Library-
@@ -44,7 +44,7 @@ jobs:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
         with:
-          projectPath: PipelinesProject
+          projectPath: PipelineSystem
           targetPlatform: StandaloneWindows64
           buildsPath: builds
         
