@@ -79,8 +79,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build.outputs.artifact-name }}
-          path: ./game
+          path: ./${{ needs.build.outputs.artifact-name }}
           run-id: ${{ github.run_id }}
+      
+      - name: Zip Build
+        run: zip -r ${{ needs.build.outputs.artifact-name }}.zip ./${{ needs.build.outputs.artifact-name }}
 
       - name: Clone Build Repo
         uses: actions/checkout@v4
@@ -92,7 +95,7 @@ jobs:
           lfs: true
       
       - name: Move Build into Repo
-        run: cp -rf ./game/* ./build-repo
+        run: cp -rf ./${{ needs.build.outputs.artifact-name }}.zip ./build-repo
 
       - name: Set git config
         run: |
