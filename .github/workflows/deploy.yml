@@ -57,7 +57,7 @@ jobs:
       
       - name: Set Artifact Name
         id: set-artifact-name
-        run: echo "name=StandaloneWindows64-Build-${{ steps.get-current-date.outputs.date }}" >> $GITHUB_OUTPUT
+        run: echo "name=${{ vars.BUILD_PROJECT_NAME }}-${{ steps.get-current-date.outputs.date }}" >> $GITHUB_OUTPUT
 
       - name: Upload StandaloneWindows64 Build
         uses: actions/upload-artifact@v4
