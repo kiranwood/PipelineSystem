@@ -1,9 +1,13 @@
 name: Build and Deploy Unity StandaloneWindows64
 
 on:
-  schedule:
-    - cron: "21 * * * *"  # Change time / frequency of build
-      timezone: "America/Vancouver"
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "21 * * * *"  # Change time / frequency of build
+  #     timezone: "America/Vancouver"
 
 # Will cancel workflow 
 concurrency:
