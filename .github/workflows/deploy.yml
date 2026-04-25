@@ -82,7 +82,7 @@ jobs:
           path: ./game
           run-id: ${{ github.run_id }}
 
-      - name: Fetch Build Repo
+      - name: Clone Build Repo
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.BUILD_REPOSITORY }}
@@ -90,6 +90,10 @@ jobs:
           path: ./build-repo
           lfs: true
       
+      - name: Move Build into Repo
+        run: cp -f ./game/* ./build-repo
+      
+      # - name: Push Build to Repo
 
 
 
