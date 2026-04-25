@@ -92,9 +92,13 @@ jobs:
           lfs: true
       
       - name: Move Build into Repo
-        run: cp -rf ./game/* ./build-repo 
+        run: cp -rf ./game/* ./build-repo
       
-      # - name: Push Build to Repo
+      - name: Push Build to Repo
+        run: |
+          git add .
+          git commit -m "Add New Build"
+          git push origin main
 
 
 
