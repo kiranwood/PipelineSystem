@@ -82,10 +82,10 @@ jobs:
           path: ./game
           run-id: ${{ github.run_id }}
 
-      # - name: Fetch Build Repo
-      #   uses: actions/checkout@v4
-      #   with:
-      #     repository: 
+      - name: Fetch Build Repo
+        uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.DEPLOY_KEY }}
 
 
 
