@@ -72,8 +72,8 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      actions: write
-      actions: read
+      pages: write
+      id-token: write
 
     steps:
       - name: Download Build
