@@ -86,6 +86,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: ${{ vars.BUILD_REPOSITORY }}
+          ref: main
           ssh-key: ${{ secrets.DEPLOY_KEY }}
           path: ./build-repo
           lfs: true
