@@ -1,0 +1,88 @@
+name: Build and Deploy Unity StandaloneWindows64
+
+on:
+  schedule:
+    - cron: "15 * * * *"  # Change time / frequency of build
+
+# Will cancel workflow 
+concurrency:
+  group: ${{ github.workflow }} -${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    outputs:
+      artifact-name: ${{ steps.set-artifact-name.outputs.name }}
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Unity Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-StandaloneWindows64-${{ hashFiles('PipelinesProject/Assets/**', 'PipelinesProject/Packages/**', 'PipelinesProject/ProjectSettings/**') }}
+          restore-keys: |
+            Library-StandaloneWindows64-
+            Library-
+      
+      - name: Build Unity StandaloneWindows64
+        uses: game-ci/unity-builder@v4
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+        with:
+          projectPath: PipelinesProject
+          targetPlatform: StandaloneWindows64
+          buildsPath: builds
+        
+      - name: Debug Output Structure
+        run: find builds/ -type f | sort
+      
+      - name: Get Current Date
+        id: get-current-date
+        run: echo "date=$(date +'%m-%d-%Y')" >> $GITHUB_OUTPUT
+      
+      - name: Set Artifact Name
+        id: set-artifact-name
+        run: echo "name=StandaloneWindows64-Build-${{ steps.get-current-date.outputs.date }}" >> $GITHUB_OUTPUT
+
+      - name: Upload StandaloneWindows64 Build
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.set-artifact-name.outputs.name }}
+          path: builds/StandaloneWindows64/StandaloneWindows64
+          retention-days: 7
+  
+  deploy:
+    name: Deploy to Github Repository
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+
+    steps:
+      - name: Download Build
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build.outputs.artifact-name }}
+          path: ./game
+
+      # - name: Fetch Build Repo
+      #   uses: actions/checkout@v4
+      #   with:
+      #     repository: 
+
+
+
+
+
