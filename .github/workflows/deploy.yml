@@ -1,19 +1,23 @@
 name: Build and Deploy Unity StandaloneWindows64
 
 on:
-  schedule:
-    - cron: "35 * * * *"  # Change time / frequency of build
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "35 * * * *"  # Change time / frequency of build
 
 # Will cancel workflow 
 concurrency:
-  group: ${{ github.workflow }} -${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+    #f: ${{ github.ref == 'refs/heads/main' }}
 
     outputs:
       artifact-name: ${{ steps.set-artifact-name.outputs.name }}
