@@ -2,7 +2,7 @@ name: Build and Deploy Unity StandaloneWindows64
 
 on:
   schedule:
-     - cron: "50 * * * *"  # Change time / frequency of build
+     - cron: "0 20 * * *"  # Change time / frequency of build
   workflow_dispatch:
 
 # Will cancel workflow 
@@ -11,11 +11,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+
+  # Creates a build 
   build:
     name: Build
     runs-on: ubuntu-latest
     if: ${{ github.ref == 'refs/heads/main' }}
 
+    # Outputs Build artifact
     outputs:
       artifact-name: ${{ steps.set-artifact-name.outputs.name }}
     
@@ -63,6 +66,7 @@ jobs:
           path: builds/StandaloneWindows64
           retention-days: 7
   
+  # Deploys build to a github repo
   deploy:
     name: Deploy to Github Repository
     needs: build
@@ -78,7 +82,8 @@ jobs:
           name: ${{ needs.build.outputs.artifact-name }}
           path: ./${{ needs.build.outputs.artifact-name }}
           run-id: ${{ github.run_id }}
-      
+
+        # Zips build
       - name: Zip Build
         run: zip -r ${{ needs.build.outputs.artifact-name }}.zip ./${{ needs.build.outputs.artifact-name }}
 
